@@ -59,8 +59,8 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>com.yohann.designpatterns.DesignpatternsApplication</mainClass>
-                    <skip>true</skip>
+                    <mainClass>com.yohann.designpatterns.DesignPatternsApplication</mainClass>
+<!--                    <skip>true</skip>-->
                 </configuration>
                 <executions>
                     <execution>
