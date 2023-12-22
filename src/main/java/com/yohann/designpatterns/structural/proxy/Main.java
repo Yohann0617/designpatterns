@@ -20,15 +20,6 @@ public class Main {
 
         System.out.println("================================================");
 
-        ProxyCglib proxyCglib = new ProxyCglib(funcInterfaceImpl);
-        FuncInterface cglibProxyInstance = (FuncInterface) proxyCglib.getProxyInstance();
-        cglibProxyInstance.sayHello();
-        System.out.println("------------------------------------------------");
-        Integer cglibPay = cglibProxyInstance.pay();
-        System.out.println("cglibProxy pay:" + cglibPay);
-
-        System.out.println("================================================");
-
         ProxyJdk proxyJdk = new ProxyJdk(funcInterfaceImpl);
         FuncInterface proxyInstance = (FuncInterface) proxyJdk.getProxyInstance();
         proxyInstance.sayHello();

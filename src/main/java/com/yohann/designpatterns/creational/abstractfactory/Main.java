@@ -2,7 +2,9 @@ package com.yohann.designpatterns.creational.abstractfactory;
 
 /**
  * <p>
- * Main
+ * 抽象工厂模式提供一个接口，用于创建一系列相关或相互依赖的对象，而无需指定具体的类。
+ * 它适用于需要一次性创建多个相关对象，以形成一个产品族。
+ * 抽象工厂模式通常由抽象工厂、具体工厂、抽象产品和具体产品组成。通过切换具体工厂实现类，可以改变整个产品族。
  * </p >
  *
  * @author yuhui.fan

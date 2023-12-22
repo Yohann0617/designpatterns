@@ -16,38 +16,50 @@ import java.lang.reflect.Method;
  */
 public class ProxyCglib implements MethodInterceptor {
 
-    /**
-     * 要代理的目标对象
-     */
-    private final Object targetObj;
+    static class TargetClass {
+        public void publicMethod() {
+            System.out.println("Public method");
+        }
 
-    public ProxyCglib(Object targetObj) {
-        this.targetObj = targetObj;
+        private void privateMethod() {
+            System.out.println("Private method");
+        }
+
+        public final void finalMethod() {
+            System.out.println("Final method");
+        }
     }
-
-    /**
-     * 获取代理对象
-     *
-     * @return 代理对象
-     */
-    public Object getProxyInstance() {
-        //1.工具类
-        Enhancer en = new Enhancer();
-        //2.设置父类
-        en.setSuperclass(targetObj.getClass());
-        //3.设置回调函数
-        en.setCallback(this);
-        //4.创建子类（代理对象）
-        return en.create();
-    }
-
 
     @Override
-    public Object intercept(Object o, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
-        System.out.println("[Cglib代理]前...");
-        Object proxyObj = method.invoke(targetObj, args);
-        System.out.println("[Cglib代理]代理方法：" + method.getName());
-        System.out.println("[Cglib代理]后...");
-        return proxyObj;
+    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+        // 在方法执行前的逻辑
+        System.out.println("Before method: " + method.getName());
+
+        // 调用原始方法
+        Object result = proxy.invokeSuper(obj, args);
+
+        // 在方法执行后的逻辑
+        System.out.println("After method: " + method.getName());
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        // 创建Enhancer对象
+        Enhancer enhancer = new Enhancer();
+        // 设置目标类
+        enhancer.setSuperclass(TargetClass.class);
+        // 设置回调对象
+        enhancer.setCallback(new ProxyCglib());
+
+        // 创建代理对象
+        TargetClass proxy = (TargetClass) enhancer.create();
+
+        // 调用代理对象的方法
+        proxy.publicMethod();
+        // 无法代理私有方法
+        proxy.privateMethod();
+        // 无法代理final方法
+        proxy.finalMethod();
     }
 }
